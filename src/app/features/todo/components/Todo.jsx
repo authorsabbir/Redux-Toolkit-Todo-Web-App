@@ -1,9 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddTodoForm } from "./AddTodoForm";
+import { deleteTodo } from "../todoSlice";
 
 export const Todo = () => {
   const { todos, loading, error } = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -17,6 +19,10 @@ export const Todo = () => {
         return "bg-gray-100 text-gray-700";
     }
   };
+  const handleDeleteTodo = (id) => {  
+    // Add deleteTodo action here
+    dispatch(deleteTodo(id));
+  }
 
   return (
     <div className="container mx-auto w-3/4 p-6">
@@ -47,7 +53,10 @@ export const Todo = () => {
                     <button className="text-blue-500 hover:text-blue-700">
                       ✏️
                     </button>
-                    <button className="text-red-500 hover:text-red-700">
+                    <button
+                      onClick={() => handleDeleteTodo(todo.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
                       🗑️
                     </button>
                     <button className="text-green-500 hover:text-green-700">

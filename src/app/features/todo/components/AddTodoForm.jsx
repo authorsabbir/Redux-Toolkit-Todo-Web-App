@@ -32,7 +32,7 @@ export const AddTodoForm = () => {
       createdBy: "Anonymous", // Or fetch from user context
     };
 
-    dispatch(addTodo(newTodo));
+    dispatch(addTodo(newTodo));    
 
     // Show success alert
     Swal.fire({

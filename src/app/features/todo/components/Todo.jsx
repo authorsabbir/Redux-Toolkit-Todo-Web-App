@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AddTodoForm } from "./AddTodoForm";
-import { deleteTodo } from "../todoSlice";
+import { deleteTodo, markTodoAsDone } from "../todoSlice";
 
 export const Todo = () => {
   const { todos, loading, error } = useSelector((state) => state.todos);
@@ -19,10 +19,14 @@ export const Todo = () => {
         return "bg-gray-100 text-gray-700";
     }
   };
-  const handleDeleteTodo = (id) => {  
-    // Add deleteTodo action here
+
+  const handleDeleteTodo = (id) => {
     dispatch(deleteTodo(id));
-  }
+  };
+
+  const handleMarkAsDone = (id) => {
+    dispatch(markTodoAsDone(id));
+  };
 
   return (
     <div className="container mx-auto w-3/4 p-6">
@@ -48,8 +52,15 @@ export const Todo = () => {
                   <div>
                     <h4 className="text-xl font-semibold">{todo.name}</h4>
                     <p className="text-sm pt-1">{todo.description}</p>
+                    <p className="text-sm font-medium">
+                      Type: <span className="capitalize">{todo.status}</span>
+                    </p>
                   </div>
                   <div className="flex space-x-4 opacity-0 hover:opacity-100 transition-all duration-300">
+                    <p className="text-sm font-medium">
+                      Type: <span className="capitalize">{todo.status}</span>
+                    </p>
+
                     <button className="text-blue-500 hover:text-blue-700">
                       ✏️
                     </button>
@@ -59,7 +70,11 @@ export const Todo = () => {
                     >
                       🗑️
                     </button>
-                    <button className="text-green-500 hover:text-green-700">
+                    <button
+                      onClick={() => handleMarkAsDone(todo.id)}
+                      className="text-green-500 hover:text-green-700"
+                      disabled={todo.status === "Done"}
+                    >
                       ✔️
                     </button>
                   </div>
